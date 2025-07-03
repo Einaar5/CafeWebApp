@@ -1,0 +1,39 @@
+﻿@model List<WebApp1.Models.Product>
+
+@{
+    ViewData["Title"] = "Product List";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="mb-4">Product List</h2>
+
+<table class="table table-dark table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Image</th>
+
+            <th>Name</th>
+            <th>Price</th>
+            <th>Created At</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Id</td>
+                <td><img src="/images/productImage/@product.ImageUrl" width="100" alt="Alternate Text" /></td>
+
+                <td>@product.Name</td>
+                <td>@product.Price</td>
+                <td>@product.CreatedAt.ToString("g")</td>
+                <td>
+                    <a class="btn btn-success btn-sm" asp-controller="Admin" asp-action="ProductEdit" asp-route-id="@product.Id">Edit</a>
+                    <a class="btn btn-danger btn-sm" asp-controller="Admin" asp-action="ProductDelete" asp-route-id="@product.Id" onclick="return confirm('(@product.Name) Adlı ürünü silmek istediğinizden emin misiniz ?')">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
