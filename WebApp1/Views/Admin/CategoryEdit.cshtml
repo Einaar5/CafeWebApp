@@ -1,0 +1,40 @@
+﻿@model WebApp1.Models.DataTransferObjects.Dto_CategoryMenu
+
+@{
+    ViewData["Title"] = "Edit Category";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-8 mx-auto rounded border p-3" style="background-color: #34495e;">
+        <h2 class="text-center mb-5">Edit Category</h2>
+
+        <form method="post">
+            <input type="hidden" asp-for="Id" />
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label text-light">Name</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="Name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label text-light">Description</label>
+                <div class="col-sm-8">
+                    <textarea class="form-control" asp-for="Description"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="offset-sm-4 col-sm-4 d-grid">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+                <div class="col-sm-4 d-grid">
+                    <a class="btn btn-outline-primary" asp-action="CategoryList" asp-controller="Admin" role="button">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

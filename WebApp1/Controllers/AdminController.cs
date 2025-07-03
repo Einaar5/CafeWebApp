@@ -174,5 +174,121 @@ namespace WebApp1.Controllers
             context.SaveChanges();
             return RedirectToAction("ProductList");
         }
+
+
+
+
+
+
+
+
+
+
+
+
+        // Category Menu List
+        public IActionResult CategoryList()
+        {
+            var categories = context.CategoryMenus.ToList();
+            return View(categories);
+        }
+
+        // Category Menu Add (GET)
+        public IActionResult CategoryAdd()
+        {
+            return View();
+        }
+
+        // Category Menu Add (POST)
+        [HttpPost]
+        public async Task<IActionResult> CategoryAdd(Dto_CategoryMenu dto_CategoryMenu)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(dto_CategoryMenu);
+            }
+
+            var category = new CategoryMenu
+            {
+                Name = dto_CategoryMenu.Name,
+                Description = dto_CategoryMenu.Description,
+                CreatedAt = dto_CategoryMenu.CreatedAt
+            };
+
+            context.CategoryMenus.Add(category);
+            await context.SaveChangesAsync();
+
+            return RedirectToAction("CategoryList");
+        }
+
+        // Category Menu Edit (GET)
+        public IActionResult CategoryEdit(int id)
+        {
+            var category = context.CategoryMenus.Find(id);
+            if (category == null)
+            {
+                return RedirectToAction("CategoryList");
+            }
+
+            var dto_CategoryMenu = new Dto_CategoryMenu
+            {
+                Id = category.Id,
+                Name = category.Name,
+                Description = category.Description,
+                CreatedAt = category.CreatedAt
+            };
+
+            return View(dto_CategoryMenu);
+        }
+
+        // Category Menu Edit (POST)
+        [HttpPost]
+        public async Task<IActionResult> CategoryEdit(int id, Dto_CategoryMenu dto_CategoryMenu)
+        {
+            var category = context.CategoryMenus.Find(id);
+            if (category == null)
+            {
+                return RedirectToAction("CategoryList");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(dto_CategoryMenu);
+            }
+
+            category.Name = dto_CategoryMenu.Name;
+            category.Description = dto_CategoryMenu.Description;
+            category.CreatedAt = dto_CategoryMenu.CreatedAt;
+
+            await context.SaveChangesAsync();
+
+            return RedirectToAction("CategoryList");
+        }
+
+        // Category Menu Delete
+        public IActionResult CategoryDelete(int id)
+        {
+            var category = context.CategoryMenus.Find(id);
+            if (category == null)
+            {
+                return RedirectToAction("CategoryList");
+            }
+
+            context.CategoryMenus.Remove(category);
+            context.SaveChanges();
+
+            return RedirectToAction("CategoryList");
+        }
+
+
+
+
+
+
+
+
+
+
+
     }
 }
