@@ -1,0 +1,169 @@
+﻿@model WebApp1.Models.DataTransferObjects.Dto_Content
+
+@{
+    ViewData["Title"] = "Edit Content";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-10 mx-auto rounded border p-3" style="background-color: #34495e;">
+        <h2 class="text-center mb-5">Edit Website Content</h2>
+
+        <form method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-light">Title</label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="Title" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-light">Phone Number</label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="PhoneNumber" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-light">Header Title Sm</label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="HeaderTitleSm" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-light">Header Title Gr</label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="HeaderTitleGr" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-light">Header Image 1</label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="HeaderImageUrl1" type="file" />
+                    @if (!string.IsNullOrEmpty(ViewData["HeaderImageUrl1"] as string))
+                    {
+                        <img src="~/images/content/@ViewData["HeaderImageUrl1"]" alt="Header Image 1" style="max-width: 200px; margin-top: 10px;" />
+                    }
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-light">Header Image 2</label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="HeaderImageUrl2" type="file" />
+                    @if (!string.IsNullOrEmpty(ViewData["HeaderImageUrl2"] as string))
+                    {
+                        <img src="~/images/content/@ViewData["HeaderImageUrl2"]" alt="Header Image 2" style="max-width: 200px; margin-top: 10px;" />
+                    }
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-light">Header Paragraph</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" asp-for="HeaderParagraph"></textarea>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-light">About Title</label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="AboutTitle" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-light">About Paragraph</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" asp-for="AboutParagraph"></textarea>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-light">About Image</label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="AboutImageUrl" type="file" />
+                    @if (!string.IsNullOrEmpty(ViewData["AboutImageUrl"] as string))
+                    {
+                        <img src="~/images/content/@ViewData["AboutImageUrl"]" alt="About Image" style="max-width: 200px; margin-top: 10px;" />
+                    }
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-light">Menu Title</label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="MenuTitle" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-light">Gallery Title</label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="GalleryTitle" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-light">Footer Title</label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="FooterTitle" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-light">Facebook URL</label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="FooterFaceBookUrl" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-light">Instagram URL</label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="FooterInstagramUrl" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-light">Twitter URL</label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="FooterTwitterUrl" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-light">Location</label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="FooterLocation" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-light">Opening Hours</label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="FooterOpeningHours" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label text-light">Email</label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="FooterEmail" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="offset-sm-2 col-sm-10 d-grid">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

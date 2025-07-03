@@ -1,6 +1,8 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApp1.Models;
+using WebApp1.Services;
 
 namespace WebApp1.Controllers
 {
@@ -8,14 +10,38 @@ namespace WebApp1.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ApplicationDbContext context;
+
+        public HomeController(ApplicationDbContext context)
         {
-            _logger = logger;
+            this.context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var content = context.Contents.FirstOrDefault();
+            if (content == null)
+            {
+                content = new Content();
+                context.Contents.Add(content);
+                context.SaveChanges();
+            }
+
+            var viewModel = new HomeContentViewModel
+            {
+                Products = context.Products.Include(p => p.Category).ToList(),
+                Galleries = context.Galleries.ToList(),
+                Contents = context.Contents.ToList()
+            };
+
+            // Mevcut image URL'lerini ViewData'ya ekle
+            ViewData["HeaderImageUrl1"] = content.HeaderImageUrl1;
+            ViewData["HeaderImageUrl2"] = content?.HeaderImageUrl2;
+            ViewData["AboutImageUrl"] = content?.AboutImageUrl;
+
+            return View(viewModel);
+
+           
         }
 
         public IActionResult Privacy()

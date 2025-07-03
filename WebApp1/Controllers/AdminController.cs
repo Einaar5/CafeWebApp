@@ -4,6 +4,7 @@ using WebApp1.Models;
 using WebApp1.Services;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApp1.Controllers
 {
@@ -27,14 +28,155 @@ namespace WebApp1.Controllers
             return View();
         }
 
+
+        #region HomePage
+
+
+        public IActionResult HomeContentEdit()
+        {
+            var content = context.Contents.FirstOrDefault(); // Tek bir içerik kaydı varsayımı
+            if (content == null)
+            {
+                content = new Content();
+                context.Contents.Add(content);
+                context.SaveChanges();
+            }
+
+            var dto_Content = new Dto_Content
+            {
+                Id = content.Id,
+                Title = content.Title,
+                PhoneNumber = content.PhoneNumber,
+                HeaderTitleSm = content.HeaderTitleSm,
+                HeaderTitleGr = content.HeaderTitleGr,
+                HeaderImageUrl1 = null, // Dosya yüklemesi için null
+                HeaderImageUrl2 = null, // Dosya yüklemesi için null
+                HeaderParagraph = content.HeaderParagraph,
+                AboutTitle = content.AboutTitle,
+                AboutParagraph = content.AboutParagraph,
+                AboutImageUrl = null, // Dosya yüklemesi için null
+                MenuTitle = content.MenuTitle,
+                GalleryTitle = content.GalleryTitle,
+                FooterTitle = content.FooterTitle,
+                FooterFaceBookUrl = content.FooterFaceBookUrl,
+                FooterInstagramUrl = content.FooterInstagramUrl,
+                FooterTwitterUrl = content.FooterTwitterUrl,
+                FooterLocation = content.FooterLocation,
+                FooterOpeningHours = content.FooterOpeningHours,
+                FooterEmail = content.FooterEmail
+            };
+            ViewData["HeaderImageUrl1"] = content.HeaderImageUrl1;
+            ViewData["HeaderImageUrl2"] = content.HeaderImageUrl2;
+            ViewData["AboutImageUrl"] = content.AboutImageUrl;
+            return View(dto_Content);
+        }
+
+        // Content Edit (POST)
+        [HttpPost]
+        public async Task<IActionResult> HomeContentEdit(Dto_Content dto_Content)
+        {
+            var content = context.Contents.FirstOrDefault();
+            if (content == null)
+            {
+                return RedirectToAction("ContentEdit");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(dto_Content);
+            }
+
+            // HeaderImageUrl1 işleme
+            if (dto_Content.HeaderImageUrl1 != null && dto_Content.HeaderImageUrl1.Length > 0)
+            {
+                string newFileName1 = DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(dto_Content.HeaderImageUrl1.FileName);
+                string imageFullPath1 = Path.Combine(environment.WebRootPath, "images", "content", newFileName1);
+                string directoryPath = Path.Combine(environment.WebRootPath, "images", "content");
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                using (var stream = new FileStream(imageFullPath1, FileMode.Create))
+                {
+                    await dto_Content.HeaderImageUrl1.CopyToAsync(stream);
+                }
+                content.HeaderImageUrl1 = newFileName1;
+            }
+
+            // HeaderImageUrl2 işleme
+            if (dto_Content.HeaderImageUrl2 != null && dto_Content.HeaderImageUrl2.Length > 0)
+            {
+                string newFileName2 = DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(dto_Content.HeaderImageUrl2.FileName);
+                string imageFullPath2 = Path.Combine(environment.WebRootPath, "images", "content", newFileName2);
+                string directoryPath = Path.Combine(environment.WebRootPath, "images", "content");
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                using (var stream = new FileStream(imageFullPath2, FileMode.Create))
+                {
+                    await dto_Content.HeaderImageUrl2.CopyToAsync(stream);
+                }
+                content.HeaderImageUrl2 = newFileName2;
+            }
+
+            // AboutImageUrl işleme
+            if (dto_Content.AboutImageUrl != null && dto_Content.AboutImageUrl.Length > 0)
+            {
+                string newFileName3 = DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(dto_Content.AboutImageUrl.FileName);
+                string imageFullPath3 = Path.Combine(environment.WebRootPath, "images", "content", newFileName3);
+                string directoryPath = Path.Combine(environment.WebRootPath, "images", "content");
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                using (var stream = new FileStream(imageFullPath3, FileMode.Create))
+                {
+                    await dto_Content.AboutImageUrl.CopyToAsync(stream);
+                }
+                content.AboutImageUrl = newFileName3;
+            }
+
+            content.Title = dto_Content.Title;
+            content.PhoneNumber = dto_Content.PhoneNumber;
+            content.HeaderTitleSm = dto_Content.HeaderTitleSm;
+            content.HeaderTitleGr = dto_Content.HeaderTitleGr;
+            content.HeaderParagraph = dto_Content.HeaderParagraph;
+            content.AboutTitle = dto_Content.AboutTitle;
+            content.AboutParagraph = dto_Content.AboutParagraph;
+            content.MenuTitle = dto_Content.MenuTitle;
+            content.GalleryTitle = dto_Content.GalleryTitle;
+            content.FooterTitle = dto_Content.FooterTitle;
+            content.FooterFaceBookUrl = dto_Content.FooterFaceBookUrl;
+            content.FooterInstagramUrl = dto_Content.FooterInstagramUrl;
+            content.FooterTwitterUrl = dto_Content.FooterTwitterUrl;
+            content.FooterLocation = dto_Content.FooterLocation;
+            content.FooterOpeningHours = dto_Content.FooterOpeningHours;
+            content.FooterEmail = dto_Content.FooterEmail;
+
+            await context.SaveChangesAsync();
+
+            return RedirectToAction("ContentEdit");
+        }
+
+        #endregion
+
+
+
+
+
+
+        #region Products
         public IActionResult ProductList()
         {
-            var products = context.Products.ToList();
+            var products = context.Products.Include(p => p.Category).ToList();
+
             return View(products);
         }
 
         public IActionResult ProductAdd()
         {
+            ViewData["Categories"] = context.CategoryMenus.ToList();
             return View();
         }
 
@@ -50,6 +192,8 @@ namespace WebApp1.Controllers
             {
                 return View(dto_Product);
             }
+
+            
 
             string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(dto_Product.ImageFile.FileName);
             string imageFullPath = Path.Combine(environment.WebRootPath, "images", "productImage", newFileName);
@@ -101,6 +245,7 @@ namespace WebApp1.Controllers
                 isPopular = product.isPopular
             };
 
+            ViewData["Categories"] = context.CategoryMenus.ToList();
             ViewData["ImageFileName"] = product.ImageUrl;
             return View(dto_Product);
         }
@@ -156,7 +301,7 @@ namespace WebApp1.Controllers
             return RedirectToAction("ProductList");
         }
 
-        public IActionResult Delete(int id)
+        public IActionResult ProductDelete(int id)
         {
             var product = context.Products.Find(id);
             if (product == null)
@@ -178,14 +323,14 @@ namespace WebApp1.Controllers
 
 
 
+        #endregion
 
 
 
 
 
 
-
-
+        #region Category
         // Category Menu List
         public IActionResult CategoryList()
         {
@@ -279,7 +424,7 @@ namespace WebApp1.Controllers
 
             return RedirectToAction("CategoryList");
         }
-
+        #endregion
 
 
 
