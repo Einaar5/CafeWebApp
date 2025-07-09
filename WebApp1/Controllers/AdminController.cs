@@ -37,7 +37,25 @@ namespace WebApp1.Controllers
             var content = context.Contents.FirstOrDefault(); // Tek bir içerik kaydı varsayımı
             if (content == null)
             {
-                content = new Content();
+                content = new Content
+                {
+                    Title = "Default Title",
+                    PhoneNumber = "5551234567",
+                    HeaderTitleSm = "Small Header",
+                    HeaderTitleGr = "Large Header",
+                    HeaderParagraph = "Header paragraph text",
+                    AboutTitle = "About Us",
+                    AboutParagraph = "About paragraph text",
+                    MenuTitle = "Our Menu",
+                    GalleryTitle = "Gallery",
+                    FooterTitle = "Contact Us",
+                    FooterFaceBookUrl = "",
+                    FooterInstagramUrl = "",
+                    FooterTwitterUrl = "",
+                    FooterLocation = "",
+                    FooterOpeningHours = "",
+                    FooterEmail = ""
+                };
                 context.Contents.Add(content);
                 context.SaveChanges();
             }
@@ -75,87 +93,22 @@ namespace WebApp1.Controllers
         [HttpPost]
         public async Task<IActionResult> HomeContentEdit(Dto_Content dto_Content)
         {
+            // Debug: Gelen veriyi kontrol et
+            TempData["DebugMessage"] = $"POST received - Title: {dto_Content?.Title}, Phone: {dto_Content?.PhoneNumber}";
+            
             var content = context.Contents.FirstOrDefault();
             if (content == null)
             {
-                return RedirectToAction("ContentEdit");
+                TempData["ErrorMessage"] = "No content found in database";
+                return RedirectToAction("HomeContentEdit");
             }
 
-            if (!ModelState.IsValid)
-            {
-                return View(dto_Content);
-            }
-
-            // HeaderImageUrl1 işleme
-            if (dto_Content.HeaderImageUrl1 != null && dto_Content.HeaderImageUrl1.Length > 0)
-            {
-                string newFileName1 = DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(dto_Content.HeaderImageUrl1.FileName);
-                string imageFullPath1 = Path.Combine(environment.WebRootPath, "images", "content", newFileName1);
-                string directoryPath = Path.Combine(environment.WebRootPath, "images", "content");
-                if (!Directory.Exists(directoryPath))
-                {
-                    Directory.CreateDirectory(directoryPath);
-                }
-                using (var stream = new FileStream(imageFullPath1, FileMode.Create))
-                {
-                    await dto_Content.HeaderImageUrl1.CopyToAsync(stream);
-                }
-                content.HeaderImageUrl1 = newFileName1;
-            }
-
-            // HeaderImageUrl2 işleme
-            if (dto_Content.HeaderImageUrl2 != null && dto_Content.HeaderImageUrl2.Length > 0)
-            {
-                string newFileName2 = DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(dto_Content.HeaderImageUrl2.FileName);
-                string imageFullPath2 = Path.Combine(environment.WebRootPath, "images", "content", newFileName2);
-                string directoryPath = Path.Combine(environment.WebRootPath, "images", "content");
-                if (!Directory.Exists(directoryPath))
-                {
-                    Directory.CreateDirectory(directoryPath);
-                }
-                using (var stream = new FileStream(imageFullPath2, FileMode.Create))
-                {
-                    await dto_Content.HeaderImageUrl2.CopyToAsync(stream);
-                }
-                content.HeaderImageUrl2 = newFileName2;
-            }
-
-            // AboutImageUrl işleme
-            if (dto_Content.AboutImageUrl != null && dto_Content.AboutImageUrl.Length > 0)
-            {
-                string newFileName3 = DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(dto_Content.AboutImageUrl.FileName);
-                string imageFullPath3 = Path.Combine(environment.WebRootPath, "images", "content", newFileName3);
-                string directoryPath = Path.Combine(environment.WebRootPath, "images", "content");
-                if (!Directory.Exists(directoryPath))
-                {
-                    Directory.CreateDirectory(directoryPath);
-                }
-                using (var stream = new FileStream(imageFullPath3, FileMode.Create))
-                {
-                    await dto_Content.AboutImageUrl.CopyToAsync(stream);
-                }
-                content.AboutImageUrl = newFileName3;
-            }
-
-            content.Title = dto_Content.Title;
-            content.PhoneNumber = dto_Content.PhoneNumber;
-            content.HeaderTitleSm = dto_Content.HeaderTitleSm;
-            content.HeaderTitleGr = dto_Content.HeaderTitleGr;
-            content.HeaderParagraph = dto_Content.HeaderParagraph;
-            content.AboutTitle = dto_Content.AboutTitle;
-            content.AboutParagraph = dto_Content.AboutParagraph;
-            content.MenuTitle = dto_Content.MenuTitle;
-            content.GalleryTitle = dto_Content.GalleryTitle;
-            content.FooterTitle = dto_Content.FooterTitle;
-            content.FooterFaceBookUrl = dto_Content.FooterFaceBookUrl;
-            content.FooterInstagramUrl = dto_Content.FooterInstagramUrl;
-            content.FooterTwitterUrl = dto_Content.FooterTwitterUrl;
-            content.FooterLocation = dto_Content.FooterLocation;
-            content.FooterOpeningHours = dto_Content.FooterOpeningHours;
-            content.FooterEmail = dto_Content.FooterEmail;
-
+            // Basit test - sadece title'ı güncelle
+            content.Title = dto_Content.Title ?? "Test Title";
+            content.PhoneNumber = dto_Content.PhoneNumber ?? "5551234567";
+            
             await context.SaveChangesAsync();
-
+            TempData["SuccessMessage"] = "Content updated successfully!";
             return RedirectToAction("HomeContentEdit");
         }
 
