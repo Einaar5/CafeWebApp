@@ -156,7 +156,7 @@ namespace WebApp1.Controllers
 
             await context.SaveChangesAsync();
 
-            return RedirectToAction("ContentEdit");
+            return RedirectToAction("HomeContentEdit");
         }
 
         #endregion
