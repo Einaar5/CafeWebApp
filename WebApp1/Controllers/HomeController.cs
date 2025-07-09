@@ -44,6 +44,26 @@ namespace WebApp1.Controllers
            
         }
 
+        public IActionResult Menu()
+        {
+            var content = context.Contents.FirstOrDefault();
+            if (content == null)
+            {
+                content = new Content();
+                context.Contents.Add(content);
+                context.SaveChanges();
+            }
+
+            var viewModel = new HomeContentViewModel
+            {
+                Products = context.Products.Include(p => p.Category).ToList(),
+                Galleries = context.Galleries.ToList(),
+                Contents = context.Contents.ToList()
+            };
+
+            return View(viewModel);
+        }
+
         public IActionResult Privacy()
         {
             return View();
