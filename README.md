@@ -25,13 +25,14 @@
 <p>
   <img src="https://github.com/Einaar5/CafeWebApp/blob/master/home-images/1.png?raw=true)](https://raw.githubusercontent.com/Einaar5/CafeWebApp/refs/heads/master/1.png" alt="Anasayfa" width="600">
   <br>
-  <img src="[https://github.com/Einaar5/CafeWebApp/blob/master/home-images/2.png?raw=true)](https://raw.githubusercontent.com/Einaar5/CafeWebApp/refs/heads/master/2.png](https://raw.githubusercontent.com/Einaar5/CafeWebApp/refs/heads/master/home-images/2.png)" alt="Anasayfa" width="600">
+  <img src="https://github.com/Einaar5/CafeWebApp/blob/master/home-images/2.png?raw=true)](https://raw.githubusercontent.com/Einaar5/CafeWebApp/refs/heads/master/2.png" alt="Anasayfa" width="600">
   <br>
-   <img src="[https://github.com/Einaar5/CafeWebApp/blob/master/home-images/3.png?raw=true)](https://raw.githubusercontent.com/Einaar5/CafeWebApp/refs/heads/master/3.png](https://raw.githubusercontent.com/Einaar5/CafeWebApp/refs/heads/master/home-images/2.png)(https://raw.githubusercontent.com/Einaar5/CafeWebApp/refs/heads/master/home-images/3.png)" alt="Anasayfa" width="600">
+  <img src="https://github.com/Einaar5/CafeWebApp/blob/master/home-images/3.png?raw=true)](https://raw.githubusercontent.com/Einaar5/CafeWebApp/refs/heads/master/3.png" alt="Anasayfa" width="600">
   <br>
-  <img src="[https://github.com/Einaar5/CafeWebApp/blob/master/home-images/4.png?raw=true)](https://raw.githubusercontent.com/Einaar5/CafeWebApp/refs/heads/master/4.png](https://raw.githubusercontent.com/Einaar5/CafeWebApp/refs/heads/master/home-images/4.png)(https://raw.githubusercontent.com/Einaar5/CafeWebApp/refs/heads/master/home-images/4.png)" alt="Anasayfa" width="600">
+  <img src="https://github.com/Einaar5/CafeWebApp/blob/master/home-images/4.png?raw=true)](https://raw.githubusercontent.com/Einaar5/CafeWebApp/refs/heads/master/4.png" alt="Anasayfa" width="600">
   <br>
-  <img src="[https://github.com/Einaar5/CafeWebApp/blob/master/home-images/5.png?raw=true)](https://raw.githubusercontent.com/Einaar5/CafeWebApp/refs/heads/master/5.png](https://raw.githubusercontent.com/Einaar5/CafeWebApp/refs/heads/master/home-images/5.png)(https://raw.githubusercontent.com/Einaar5/CafeWebApp/refs/heads/master/home-images/5.png)" alt="Anasayfa" width="600">
+  <img src="https://github.com/Einaar5/CafeWebApp/blob/master/home-images/5.png?raw=true)](https://raw.githubusercontent.com/Einaar5/CafeWebApp/refs/heads/master/5.png" alt="Anasayfa" width="600">
+  <br>
   <br>
   <em>Anasayfa görünümü</em>
 </p>
