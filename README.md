@@ -23,7 +23,7 @@
 
 <h2>🖼️ Ekran Görüntüleri</h2>
 <p>
-  <img src="https://github.com/Einaar5/CafeWebApp/blob/master/Ana%20ekran.png?raw=true)](https://raw.githubusercontent.com/Einaar5/CafeWebApp/refs/heads/master/Ana%20ekran.png" alt="Anasayfa" width="600">
+  <img src="https://github.com/Einaar5/CafeWebApp/blob/master/home-images/Ana%20ekran.png?raw=true)](https://raw.githubusercontent.com/Einaar5/CafeWebApp/refs/heads/master/Ana%20ekran.png" alt="Anasayfa" width="600">
   <br>
   <em>Anasayfa görünümü</em>
 </p>
