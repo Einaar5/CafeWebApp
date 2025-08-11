@@ -1,0 +1,40 @@
+﻿@model WebApp1.Models.HomeContentViewModel
+
+@{
+	ViewData["Title"] = "Gallery List";
+	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Gallery List</h2>
+
+<a class="btn btn-primary mb-3" href="/Gallery/Create">Yeni Ekle</a>
+
+<table class="table table-bordered">
+	<thead>
+	<td>
+		<tr>
+			<th>Resim</th>
+		</tr>
+	<tr>
+		<th>İşlem</th>
+	</tr>
+	</td>
+	
+
+
+	</thead>
+	<tbody>
+		@foreach (var galleryItem in Model.Galleries)
+		{
+			<tr>
+				<td>
+					<img src="~/images/gallery/@galleryItem.ImageUrl" alt="Image" width="150" />
+				</td>
+				<td>
+					<a href="@Url.Action("GalleryEdit", "Admin", new { id = galleryItem.Id })" class="btn btn-warning btn-sm">Edit</a>
+					<a href="@Url.Action("GalleryDelete", "Admin", new { id = galleryItem.Id })" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

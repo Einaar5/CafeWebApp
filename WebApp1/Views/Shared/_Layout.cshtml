@@ -1,6 +1,7 @@
 ﻿@model WebApp1.Models.HomeContentViewModel
 @{
     var content = Model.Contents.FirstOrDefault();
+    
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -27,6 +28,28 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="/lib/manifest/site.webmanifest">
+    <style>
+        .gallery-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery-items__item {
+            aspect-ratio: 1 / 1; /* kare görünüm */
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .gallery-items__item-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* resmi kırparak doldurur */
+            display: block;
+        }
+
+
+    </style>
 </head>
 <body>
     <header class="s-header">

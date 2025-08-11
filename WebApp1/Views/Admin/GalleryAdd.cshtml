@@ -1,0 +1,24 @@
+﻿@model WebApp1.Models.DataTransferObjects.Dto_Gallery
+
+@{
+    ViewData["Title"] = "Yeni Galeri Ekle";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Yeni Galeri Ekle</h2>
+
+<form asp-action="GalleryAdd" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label>Resim Yükle</label>
+        <input asp-for="ImageUrl" type="file" class="form-control" />
+        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success mt-2">Kaydet</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

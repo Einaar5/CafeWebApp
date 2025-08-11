@@ -104,8 +104,75 @@ namespace WebApp1.Controllers
             }
 
             // Basit test - sadece title'ı güncelle
-            content.Title = dto_Content.Title ?? "Test Title";
-            content.PhoneNumber = dto_Content.PhoneNumber ?? "5551234567";
+            content.Title = dto_Content.Title;
+            content.PhoneNumber = dto_Content.PhoneNumber;
+            content.HeaderTitleSm = dto_Content.HeaderTitleSm;
+            content.HeaderTitleGr = dto_Content.HeaderTitleGr;
+            content.HeaderParagraph = dto_Content.HeaderParagraph;
+            content.AboutTitle = dto_Content.AboutTitle;
+            content.AboutParagraph = dto_Content.AboutParagraph;
+            content.MenuTitle = dto_Content.MenuTitle;
+            content.GalleryTitle = dto_Content.GalleryTitle;
+            content.FooterTitle = dto_Content.FooterTitle;
+            content.FooterFaceBookUrl = dto_Content.FooterFaceBookUrl;
+            content.FooterInstagramUrl = dto_Content.FooterInstagramUrl;
+            content.FooterTwitterUrl = dto_Content.FooterTwitterUrl;
+            content.FooterLocation = dto_Content.FooterLocation;
+            content.FooterOpeningHours = dto_Content.FooterOpeningHours;
+            content.FooterEmail = dto_Content.FooterEmail;
+
+            // HeaderImageUrl1
+            if (dto_Content.HeaderImageUrl1 != null && dto_Content.HeaderImageUrl1.Length > 0)
+            {
+                var newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(dto_Content.HeaderImageUrl1.FileName);
+                var imageFullPath = Path.Combine(environment.WebRootPath, "images", "content", newFileName);
+                using (var stream = new FileStream(imageFullPath, FileMode.Create))
+                {
+                    await dto_Content.HeaderImageUrl1.CopyToAsync(stream);
+                }
+                // Eski dosyayı sil
+                if (!string.IsNullOrEmpty(content.HeaderImageUrl1))
+                {
+                    var oldImagePath = Path.Combine(environment.WebRootPath, "images", "content", content.HeaderImageUrl1);
+                    if (System.IO.File.Exists(oldImagePath))
+                        System.IO.File.Delete(oldImagePath);
+                }
+                content.HeaderImageUrl1 = newFileName;
+            }
+            // HeaderImageUrl2
+            if (dto_Content.HeaderImageUrl2 != null && dto_Content.HeaderImageUrl2.Length > 0)
+            {
+                var newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(dto_Content.HeaderImageUrl2.FileName);
+                var imageFullPath = Path.Combine(environment.WebRootPath, "images", "content", newFileName);
+                using (var stream = new FileStream(imageFullPath, FileMode.Create))
+                {
+                    await dto_Content.HeaderImageUrl2.CopyToAsync(stream);
+                }
+                if (!string.IsNullOrEmpty(content.HeaderImageUrl2))
+                {
+                    var oldImagePath = Path.Combine(environment.WebRootPath, "images", "content", content.HeaderImageUrl2);
+                    if (System.IO.File.Exists(oldImagePath))
+                        System.IO.File.Delete(oldImagePath);
+                }
+                content.HeaderImageUrl2 = newFileName;
+            }
+            // AboutImageUrl
+            if (dto_Content.AboutImageUrl != null && dto_Content.AboutImageUrl.Length > 0)
+            {
+                var newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(dto_Content.AboutImageUrl.FileName);
+                var imageFullPath = Path.Combine(environment.WebRootPath, "images", "content", newFileName);
+                using (var stream = new FileStream(imageFullPath, FileMode.Create))
+                {
+                    await dto_Content.AboutImageUrl.CopyToAsync(stream);
+                }
+                if (!string.IsNullOrEmpty(content.AboutImageUrl))
+                {
+                    var oldImagePath = Path.Combine(environment.WebRootPath, "images", "content", content.AboutImageUrl);
+                    if (System.IO.File.Exists(oldImagePath))
+                        System.IO.File.Delete(oldImagePath);
+                }
+                content.AboutImageUrl = newFileName;
+            }
             
             await context.SaveChangesAsync();
             TempData["SuccessMessage"] = "Content updated successfully!";
@@ -377,6 +444,134 @@ namespace WebApp1.Controllers
 
             return RedirectToAction("CategoryList");
         }
+        #endregion
+
+        #region Gallery
+
+        public IActionResult GalleryList()
+        {
+            var galleryList = context.Galleries.ToList();
+            var contentList = context.Contents.ToList();
+
+            var galleryModel = new HomeContentViewModel
+            {
+                Galleries = galleryList,
+                Contents = contentList
+            };
+
+            return View(galleryModel);
+        }
+
+
+        public IActionResult GalleryAdd()
+        {
+            return View();
+        }
+
+        
+        [HttpPost]
+        public async Task<IActionResult> GalleryAdd(Dto_Gallery dto_gallery)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(dto_gallery);
+            }
+
+            string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(dto_gallery.ImageUrl.FileName);
+            string directoryPath = Path.Combine(environment.WebRootPath, "images", "gallery");
+
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            string imageFullPath = Path.Combine(directoryPath, newFileName);
+
+            using (var stream = new FileStream(imageFullPath, FileMode.Create))
+            {
+                await dto_gallery.ImageUrl.CopyToAsync(stream);
+            }
+
+            var gallery = new Gallery
+            {
+                ImageUrl = newFileName
+            };
+
+            context.Galleries.Add(gallery);
+            await context.SaveChangesAsync();
+
+            // Listeye yönlendir
+            return RedirectToAction("GalleryList");
+        }
+
+
+
+        public IActionResult Edit(int id)
+        {
+            var gallery = context.Galleries.Find(id);
+            if (gallery == null)
+                return NotFound();
+
+            var dto = new Dto_Gallery
+            {
+                Id = gallery.Id,
+                ImageUrl = gallery.ImageUrl != null ? new FormFile(new MemoryStream(), 0, 0, null, gallery.ImageUrl) : null // burada ImageUrl'yi FormFile olarak ayarlıyoruz
+            };
+
+            return View(dto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GalleryEdit(Dto_Gallery dto)
+        {
+            var gallery = context.Galleries.Find(dto.Id);
+            if (gallery == null)
+                return NotFound();
+
+            if (dto.ImageUrl != null)
+            {
+                string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(dto.ImageUrl.FileName);
+                string imageFullPath = Path.Combine(environment.WebRootPath, "images", "gallery", newFileName);
+
+                using (var stream = new FileStream(imageFullPath, FileMode.Create))
+                {
+                    await dto.ImageUrl.CopyToAsync(stream);
+                }
+
+                // Eski resmi sil
+                var oldPath = Path.Combine(environment.WebRootPath, "images", "gallery", gallery.ImageUrl);
+                if (System.IO.File.Exists(oldPath))
+                {
+                    System.IO.File.Delete(oldPath);
+                }
+
+                gallery.ImageUrl = newFileName;
+            }
+
+            await context.SaveChangesAsync();
+            return RedirectToAction("GalleryList");
+        }
+
+        [HttpGet]
+        public IActionResult GalleryDelete(int id)
+        {
+            var gallery = context.Galleries.Find(id);
+            if (gallery == null)
+                return NotFound();
+
+            // Resmi sil
+            var imagePath = Path.Combine(environment.WebRootPath, "images", "gallery", gallery.ImageUrl);
+            if (System.IO.File.Exists(imagePath))
+            {
+                System.IO.File.Delete(imagePath);
+            }
+
+            context.Galleries.Remove(gallery);
+            context.SaveChanges();
+
+            return RedirectToAction("GalleryList");
+        }
+
         #endregion
 
 
