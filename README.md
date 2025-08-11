@@ -23,7 +23,7 @@
 
 <h2>🖼️ Ekran Görüntüleri</h2>
 <p>
-  <img src="(https://github.com/Einaar5/CafeWebApp/blob/master/Ana%20ekran.png?raw=true)](https://raw.githubusercontent.com/Einaar5/CafeWebApp/refs/heads/master/Ana%20ekran.png)" alt="Anasayfa" width="600">
+  <img src="https://github.com/Einaar5/CafeWebApp/blob/master/Ana%20ekran.png?raw=true)](https://raw.githubusercontent.com/Einaar5/CafeWebApp/refs/heads/master/Ana%20ekran.png" alt="Anasayfa" width="600">
   <br>
   <em>Anasayfa görünümü</em>
 </p>
@@ -40,7 +40,7 @@
 <h2>⚙️ Kurulum</h2>
 <ol>
   <li>Projeyi klonlayın:
-    <pre><code>git clone https://github.com/kullaniciadi/cafe-yonetim-sistemi.git</code></pre>
+    <pre><code>git clone https://github.com/Einarr5/CafeWebApp.git</code></pre>
   </li>
   <li>Visual Studio ile projeyi açın.</li>
   <li>appsettings.json dosyasında MSSQL bağlantı ayarlarını yapın.</li>
